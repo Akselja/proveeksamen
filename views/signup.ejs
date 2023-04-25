@@ -1,4 +1,5 @@
 <%- include("./partials/head") %>
+    <!--extra scripts-->
     <title>Registrer</title>
 </head>
 <body>
@@ -6,12 +7,13 @@
         <%- include("./partials/nav") %>
 
         <section>
-            <form class="signupForm">
+            <form action="/signup" method="post">
                 <label for="email">E-post: </label>
                 <input type="text" id="email" name="email" required>
                 <label for="password">Passord: </label>
                 <input type="password" id="password" name="password" requried>
-                <input type="submit" value="Logg inn">
+                <!-- <input type="submit" value="Logg inn"> -->
+                <button>Submit</button>
             </form>
         </section>
 

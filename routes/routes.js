@@ -13,10 +13,15 @@ router.get("/signup", controller.signup_get);
 
 router.get("/login", controller.login_get);
 
+router.get("/addProduct", controller.addProduct_get);
+
     // post
 router.post("/signup", controller.signup_post);
 
 router.post("/login", controller.login_post);
+
+    // 404
+router.use(controller.error404);
 
 // export
 module.exports = router;
