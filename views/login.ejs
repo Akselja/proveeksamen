@@ -1,0 +1,21 @@
+<%- include("./partials/head") %>
+    <title>Logg inn</title>
+</head>
+<body>
+    <main>
+        <%- include("./partials/nav") %>
+
+        <section>
+            <form class="loginForm">
+                <label for="email">E-post: </label>
+                <input type="text" id="email" name="email" required>
+                <label for="password">Passord: </label>
+                <input type="password" id="password" name="password" requried>
+                <input type="submit" value="Logg inn">
+            </form>
+        </section>
+
+        <%- include("./partials/footer") %>
+    </main>
+</body>
+</html>
