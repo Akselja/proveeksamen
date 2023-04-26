@@ -1,5 +1,4 @@
 <%- include("./partials/head") %>
-    <!--extra scripts-->
     <title>Logg inn</title>
 </head>
 <body>
@@ -9,7 +8,7 @@
         <section>
             <form action="/login" method="post">
                 <label for="email">E-post: </label>
-                <input type="text" id="email" name="email" required>
+                <input type="email" id="email" name="email" required>
                 <label for="password">Passord: </label>
                 <input type="password" id="password" name="password" requried>
                 <button>Submit</button>

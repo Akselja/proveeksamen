@@ -1,0 +1,32 @@
+<%- include("./partials/head.ejs") %>
+    <title>Add product</title>
+</head>
+<body>
+    <main>
+        <%- include("./partials/nav.ejs") %>
+
+        <section>
+            <form action="/addProduct" method="post">
+                <label for="artikkelnummer">Artikkelnummer: </label>
+                <input type="number" id="artikkelnummer" name="artikkelnummer" required>
+                <br>
+                <label for="modell">Modell: </label>
+                <input type="text" id="modell" name="modell" required>
+                <br>
+                <label for="merke">Merke: </label>
+                <input type="text" id="merke" name="merke" required>
+                <br>
+                <label for="pris">Pris: </label>
+                <input type="number" id="pris" name="pris" required>
+                <br>
+                <label for="tittel">Tittel: </label>
+                <input type="text" id="tittel" name="tittel" required>
+                <br>
+                <input type="submit" value="Submit">
+            </form>
+        </section>
+
+        <%- include("./partials/footer.ejs") %>
+    </main>
+</body>
+</html>

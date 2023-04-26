@@ -1,6 +1,7 @@
 // imports
 const controller = require("../controllers/controller");
 const { Router } = require("express");
+const cors = require("cors");
 
 // router init
 const router = Router();
@@ -16,9 +17,11 @@ router.get("/login", controller.login_get);
 router.get("/addProduct", controller.addProduct_get);
 
     // post
-router.post("/signup", controller.signup_post);
+router.post("/signup", cors(), controller.signup_post);
 
-router.post("/login", controller.login_post);
+router.post("/login", cors(), controller.login_post);
+
+router.post("/addProduct", cors(), controller.addProduct_post);
 
     // 404
 router.use(controller.error404);

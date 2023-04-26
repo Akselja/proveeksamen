@@ -9,8 +9,7 @@ const cookieParser = require("cookie-parser");
 const app = express();
 
 app.use(cors({
-    credentials : true,
-    origin : ["*"]
+    origin : ["http://localhost/addProduct", "http://localhost/login", "http://localhost/signup"]
 }));
 
 app.set('view engine', 'ejs');
@@ -22,15 +21,8 @@ dotenv.config();
 const url = process.env.url;
 
 mongoose.connect(url)
-.then(() => app.listen(80, () => console.log('listening to port 80')))
-.catch(err => console.log(err));
-
-app.use(router);
-
-
-
-
-const bingchilling = 
+.then(() => app.listen(80, () => {
+    const bingchilling = 
 `
 ⣿⣿⣿⣿⣿⠟⠋⠄⠄⠄⠄⠄⠄⠄⢁⠈⢻⢿⣿⣿⣿⣿⣿⣿⣿
 ⣿⣿⣿⣿⣿⠃⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠈⡀⠭⢿⣿⣿⣿⣿
@@ -49,3 +41,11 @@ const bingchilling =
 ⠄⠄⠄⠄⠄⠄⣿⣿⠃⣦⣄⣿⣿⣿⠇⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄
 ⠄⠄⠄⠄⠄⢸⣿⠗⢈⡶⣷⣿⣿⡏⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄⠄`
 console.log(bingchilling)
+}))
+.catch(err => console.log(err));
+
+app.use(router);
+
+
+
+

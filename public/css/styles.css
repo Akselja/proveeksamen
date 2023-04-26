@@ -1,0 +1,28 @@
+body {
+    padding: 170px 0 0 0;
+}
+
+#navbar {
+    background-color: #FF8383;
+    padding: 20px;
+    display: flex;
+    flex-direction: row;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    align-items: baseline;
+}
+
+.navItem {
+    margin: 0 5px;
+}
+
+h1 {
+    font-size: 2.5rem;
+}
+
+p {
+    font-size: 1.5rem;
+}
+
