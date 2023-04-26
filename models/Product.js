@@ -23,12 +23,8 @@ const productSchema = new mongoose.Schema({
         type : String,
         unique : true,
         required : true
-    },
-    dato : {
-        type : Date,
-        required : true
-    },
-});
+    }
+}, { timestamps : true });
 
 const Product = mongoose.model("product", productSchema);
 

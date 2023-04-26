@@ -9,13 +9,15 @@ dotenv.config({ path : "../.env" });
 
 // controllers
    // get
-module.exports.home_get = (req, res) => {
+module.exports.home_get = async (req, res) => {
+    const products = await getProducts();
+    console.log(products);
     if (req.cookies.jwt) {
         const cookie = req.cookies.jwt;
         const decoded = jwt.verify(cookie, process.env.secretKey);
-        res.render("home", { email : decoded.email });
+        res.render("home", { email : decoded.email, products });
     } else {
-        res.render("home");
+        res.render("home", { products });
     } 
 }
 
@@ -46,6 +48,20 @@ module.exports.addProduct_get = (req, res) => {
         const decoded = jwt.verify(jwtAuth, process.env.secretKey);
         if (decoded.email === "petter.shoes@kickshub.io") {
             res.status(200).render("addProduct", { email : decoded.email });
+        } else {
+            res.status(401).render("accessDenied");
+        }
+    } catch (err) {
+        res.status(401).render("accessDenied");
+    }
+}
+
+module.exports.documentation_get = (req, res) => {
+    try {
+        const jwtAuth = req.cookies.jwt;
+        const decoded = jwt.verify(jwtAuth, process.env.secretKey);
+        if (decoded.email === "petter.shoes@kickshub.io") {
+            res.status(200).render("documentation", { email : decoded.email });
         } else {
             res.status(401).render("accessDenied");
         }
@@ -92,25 +108,36 @@ module.exports.addProduct_post = async (req, res) => {
         artikkelnummer, modell, merke, pris, tittel
     } = req.body;
 
-    const dato = new Date();
-
+    // check for authentication upon receiving request
     try {
-        console.log(req.body);
-        console.log(artikkelnummer, modell, merke, pris, tittel, dato)
-        const product = await Product.create({
-            artikkelnummer,
-            modell,
-            merke,
-            pris,
-            tittel,
-            dato
-        });
-        console.log(product);
-        res.status(201).json({ product });
+        const jwtAuth = req.cookies.jwt;
+        const decoded = jwt.verify(jwtAuth, process.env.secretKey);
+        if (decoded.email === "petter.shoes@kickshub.io") {
+            // then try to add product to DB
+            try {
+                console.log(req.body);
+                console.log(artikkelnummer, modell, merke, pris, tittel)
+                const product = await Product.create({
+                    artikkelnummer,
+                    modell,
+                    merke,
+                    pris,
+                    tittel
+                });
+                console.log(product);
+                res.status(201).render("addProduct");
+            } catch (err) {
+                console.log(err)
+                res.status(400).json({ error : err });
+            }
+        } else {
+            res.status(401).render("accessDenied");
+        }
     } catch (err) {
-        console.log(err)
-        res.status(400).json({ error : err });
+        res.status(401).render("accessDenied");
     }
+
+    
 }
 
    // 404
@@ -131,4 +158,11 @@ const createJWT = (email) => {
     })
 
     return newToken;
+}
+
+
+// function sorting products by time
+const getProducts = async () => {
+    const productList = await Product.find({}).sort({ createdAt : -1 });
+    return productList;
 }
