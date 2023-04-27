@@ -6,66 +6,105 @@
         <%- include("./partials/nav.ejs") %>
     
         <section id="prodSection">
+            <% if (typeof products[0] !== 'undefined') { %>
             <div class="prodCard">
                 <p class="minorText">NOK: <%- products[0].pris %></p>
                 <p class="productText"><%- products[0].tittel %></p>
                 <p class="minorText"><%- products[0].merke %></p>
                 <p class="minorText">Modell: <%- products[0].modell %></p>
+                <p class="minorText">ID: <%- products[0].artikkelnummer %></p>
             </div>
+            <% } %>
+
+            <% if (typeof products[1] !== 'undefined') { %>
             <div class="prodCard">
                 <p class="minorText">NOK: <%- products[1].pris %></p>
                 <p class="productText"><%- products[1].tittel %></p>
                 <p class="minorText"><%- products[1].merke %></p>
                 <p class="minorText">Modell: <%- products[1].modell %></p>
+                <p class="minorText">ID: <%- products[1].artikkelnummer %></p>
             </div>
+            <% } %>
+
+            <% if (typeof products[2] !== 'undefined') { %>
             <div class="prodCard">
                 <p class="minorText">NOK: <%- products[2].pris %></p>
                 <p class="productText"><%- products[2].tittel %></p>
                 <p class="minorText"><%- products[2].merke %></p>
                 <p class="minorText">Modell: <%- products[2].modell %></p>
+                <p class="minorText">ID: <%- products[2].artikkelnummer %></p>
             </div>
+            <% } %>
+
+            <% if (typeof products[3] !== 'undefined') { %>
             <div class="prodCard">
                 <p class="minorText">NOK: <%- products[3].pris %></p>
                 <p class="productText"><%- products[3].tittel %></p>
                 <p class="minorText"><%- products[3].merke %></p>
                 <p class="minorText">Modell: <%- products[3].modell %></p>
+                <p class="minorText">ID: <%- products[3].artikkelnummer %></p>
             </div>
+            <% } %>
+
+            <% if (typeof products[4] !== 'undefined') { %>
             <div class="prodCard">
                 <p class="minorText">NOK: <%- products[4].pris %></p>
                 <p class="productText"><%- products[4].tittel %></p>
                 <p class="minorText"><%- products[4].merke %></p>
                 <p class="minorText">Modell: <%- products[4].modell %></p>
+                <p class="minorText">ID: <%- products[4].artikkelnummer %></p>
             </div>
+            <% } %>
+
+            <% if (typeof products[5] !== 'undefined') { %>
             <div class="prodCard">
                 <p class="minorText">NOK: <%- products[5].pris %></p>
                 <p class="productText"><%- products[5].tittel %></p>
                 <p class="minorText"><%- products[5].merke %></p>
                 <p class="minorText">Modell: <%- products[5].modell %></p>
+                <p class="minorText">ID: <%- products[5].artikkelnummer %></p>
             </div>
+            <% } %>
+
+            <% if (typeof products[6] !== 'undefined') { %>
             <div class="prodCard">
                 <p class="minorText">NOK: <%- products[6].pris %></p>
                 <p class="productText"><%- products[6].tittel %></p>
                 <p class="minorText"><%- products[6].merke %></p>
                 <p class="minorText">Modell: <%- products[6].modell %></p>
+                <p class="minorText">ID: <%- products[6].artikkelnummer %></p>
             </div>
+            <% } %>
+
+            <% if (typeof products[7] !== 'undefined') { %>
             <div class="prodCard">
                 <p class="minorText">NOK: <%- products[7].pris %></p>
                 <p class="productText"><%- products[7].tittel %></p>
                 <p class="minorText"><%- products[7].merke %></p>
                 <p class="minorText">Modell: <%- products[7].modell %></p>
+                <p class="minorText">ID: <%- products[7].artikkelnummer %></p>
             </div>
+            <% } %>
+
+            <% if (typeof products[8] !== 'undefined') { %>
             <div class="prodCard">
                 <p class="minorText">NOK: <%- products[8].pris %></p>
                 <p class="productText"><%- products[8].tittel %></p>
                 <p class="minorText"><%- products[8].merke %></p>
                 <p class="minorText">Modell: <%- products[8].modell %></p>
+                <p class="minorText">ID: <%- products[8].artikkelnummer %></p>
             </div>
+            <% } %>
+
+            <% if (typeof products[9] !== 'undefined') { %>
             <div class="prodCard">
                 <p class="minorText">NOK: <%- products[9].pris %></p>
                 <p class="productText"><%- products[9].tittel %></p>
                 <p class="minorText"><%- products[9].merke %></p>
                 <p class="minorText">Modell: <%- products[9].modell %></p>
+                <p class="minorText">ID: <%- products[9].artikkelnummer %></p>
             </div>
+            <% } %>
         </section>
 
         <%- include("./partials/footer.ejs") %>

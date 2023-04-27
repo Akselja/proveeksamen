@@ -9,6 +9,7 @@ const productSchema = new mongoose.Schema({
     },
     modell : {
         type : String,
+        unique : true,
         required : true
     },
     merke : {

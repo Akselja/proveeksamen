@@ -181,23 +181,24 @@ module.exports.addProduct_post = async (req, res) => {
 
 module.exports.delete_post = async (req, res) => {
     const { artikkelnummer } = req.body;
-
+    console.log(artikkelnummer);
     // attempt delete (auth protected)
     try {
         const jwtAuth = req.cookies.jwt;
         const decoded = jwt.verify(jwtAuth, process.env.secretKey);
         if (decoded.email === "petter.shoes@kickshub.io") {
-            const deletedProd = Product.findOneAndDelete(artikkelnummer);
+            const deletedProd = await Product.findOneAndDelete(artikkelnummer);
             res.status(200).redirect("/delete");
         } else {
             res.status(401).render("accessDenied");
         }
     } catch (err) {
+        console.log(err);
         res.status(400).redirect("/delete");
     }
 }
 
-module.exports.edit_post = async (req, res) => {
+module.exports.edit_post = (req, res) => {
     const request = req.body;
 
     const filter = request.artikkelnummer;
@@ -205,9 +206,14 @@ module.exports.edit_post = async (req, res) => {
     const update = {};
 
     // filters out empty values, because they are submittable in this request
-    Object.entries(request).forEach(entry => {
+    Object.entries(request).forEach((entry) => {
         if (!entry[1] == "") {
-            update[entry[0]] = entry[1];    
+            if (entry[0] === "chartikkelnummer") {
+                update["artikkelnummer"] = entry[1];
+            } else {
+                update[entry[0]] = entry[1];
+
+            }
         }
     })
 
@@ -216,7 +222,7 @@ module.exports.edit_post = async (req, res) => {
         const jwtAuth = req.cookies.jwt;
         const decoded = jwt.verify(jwtAuth, process.env.secretKey);
         if (decoded.email === "petter.shoes@kickshub.io") {
-            const updatedProd = await Product.findOneAndUpdate(filter, update);
+            const updatedProd = Product.findOneAndUpdate(filter, update);
             res.status(200).redirect("/edit");
         } else {
             res.status(401).render("accessDenied");

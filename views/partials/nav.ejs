@@ -7,6 +7,8 @@
         <a class="navItem" href="/veileder"><p>Veileder</p></a>
         <a class="navItem" href="/delete"><p>Slett produkt</p></a>
         <a class="navItem" href="/edit"><p>Rediger produkt</p></a>
+        <% if (typeof email !== "undefined") { %>
         <p class="loggedInText"><%- email %></p>
+        <% } %>
     </nav>
-</header>
+</header> 
