@@ -56,12 +56,12 @@ module.exports.addProduct_get = (req, res) => {
     }
 }
 
-module.exports.documentation_get = (req, res) => {
+module.exports.veileder_get = (req, res) => {
     try {
         const jwtAuth = req.cookies.jwt;
         const decoded = jwt.verify(jwtAuth, process.env.secretKey);
         if (decoded.email === "petter.shoes@kickshub.io") {
-            res.status(200).render("documentation", { email : decoded.email });
+            res.status(200).render("veileder", { email : decoded.email });
         } else {
             res.status(401).render("accessDenied");
         }

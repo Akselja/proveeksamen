@@ -44,6 +44,10 @@ p {
     text-decoration: underline;
 }
 
+.bigpic {
+    width: 70vw;
+}
+
 .minorText {
     font-size: 1rem;
 }
