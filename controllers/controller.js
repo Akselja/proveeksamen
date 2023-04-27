@@ -10,18 +10,20 @@ dotenv.config({ path : "../.env" });
 // controllers
    // get
 module.exports.home_get = async (req, res) => {
+    // get products from DB
     const products = await getProducts();
-    console.log(products);
+    // try to connect to home
     if (req.cookies.jwt) {
         const cookie = req.cookies.jwt;
         const decoded = jwt.verify(cookie, process.env.secretKey);
         res.render("home", { email : decoded.email, products });
     } else {
         res.render("home", { products });
-    } 
+    }   
 }
 
 module.exports.signup_get = (req, res) => {
+    // try to connect to signup
     if (req.cookies.jwt) {
         const cookie = req.cookies.jwt;
         const decoded = jwt.verify(cookie, process.env.secretKey);
@@ -32,17 +34,19 @@ module.exports.signup_get = (req, res) => {
 }
 
 module.exports.login_get = (req, res) => {
+    // try to connect to login
     if (req.cookies.jwt) {
         const cookie = req.cookies.jwt;
         const decoded = jwt.verify(cookie, process.env.secretKey);
         res.render("login", { email : decoded.email });
     } else {
         res.render("login");
-    } 
-    
+    }
 }
 
 module.exports.addProduct_get = (req, res) => {
+
+    // try to connect to addProduct (auth protected)
     try {
         const jwtAuth = req.cookies.jwt;
         const decoded = jwt.verify(jwtAuth, process.env.secretKey);
@@ -56,7 +60,41 @@ module.exports.addProduct_get = (req, res) => {
     }
 }
 
+module.exports.delete_get = (req, res) => {
+
+    // try to connect to delete (auth protected)
+    try {
+        const jwtAuth = req.cookies.jwt;
+        const decoded = jwt.verify(jwtAuth, process.env.secretKey);
+        if (decoded.email === "petter.shoes@kickshub.io") {
+            res.status(200).render("delete", { email : decoded.email });
+        } else {
+            res.status(401).render("accessDenied");
+        }
+    } catch (err) {
+        res.status(401).render("accessDenied");
+    }
+}
+
+module.exports.edit_get = (req, res) => {
+
+    // try to connect to edit (auth protected)
+    try {
+        const jwtAuth = req.cookies.jwt;
+        const decoded = jwt.verify(jwtAuth, process.env.secretKey);
+        if (decoded.email === "petter.shoes@kickshub.io") {
+            res.status(200).render("edit", { email : decoded.email });
+        } else {
+            res.status(401).render("accessDenied");
+        }
+    } catch (err) {
+        res.status(401).render("accessDenied");
+    }
+}
+
 module.exports.veileder_get = (req, res) => {
+
+    // try to connect to veileder (auth protected)
     try {
         const jwtAuth = req.cookies.jwt;
         const decoded = jwt.verify(jwtAuth, process.env.secretKey);
@@ -74,6 +112,7 @@ module.exports.veileder_get = (req, res) => {
 module.exports.signup_post = async (req, res) => {
     const { email, password } = req.body;
     
+    // try signup
     try {
         console.log("goof")
         const user = await User.create({ email, password });
@@ -91,6 +130,7 @@ module.exports.login_post = async (req, res) => {
     const { email, password } = req.body;
     console.log(email, password);
 
+    // try login
     try {
         const user = await User.login( email, password );
         const token = createJWT(user.email);
@@ -108,12 +148,13 @@ module.exports.addProduct_post = async (req, res) => {
         artikkelnummer, modell, merke, pris, tittel
     } = req.body;
 
-    // check for authentication upon receiving request
+    // attempt adding product to DB (auth protected)
+        // auth
     try {
         const jwtAuth = req.cookies.jwt;
         const decoded = jwt.verify(jwtAuth, process.env.secretKey);
         if (decoded.email === "petter.shoes@kickshub.io") {
-            // then try to add product to DB
+                // add to db
             try {
                 console.log(req.body);
                 console.log(artikkelnummer, modell, merke, pris, tittel)
@@ -125,7 +166,7 @@ module.exports.addProduct_post = async (req, res) => {
                     tittel
                 });
                 console.log(product);
-                res.status(201).render("addProduct");
+                res.status(201).redirect("/addProduct");
             } catch (err) {
                 console.log(err)
                 res.status(400).json({ error : err });
@@ -136,8 +177,54 @@ module.exports.addProduct_post = async (req, res) => {
     } catch (err) {
         res.status(401).render("accessDenied");
     }
+}
 
-    
+module.exports.delete_post = async (req, res) => {
+    const { artikkelnummer } = req.body;
+
+    // attempt delete (auth protected)
+    try {
+        const jwtAuth = req.cookies.jwt;
+        const decoded = jwt.verify(jwtAuth, process.env.secretKey);
+        if (decoded.email === "petter.shoes@kickshub.io") {
+            const deletedProd = Product.findOneAndDelete(artikkelnummer);
+            res.status(200).redirect("/delete");
+        } else {
+            res.status(401).render("accessDenied");
+        }
+    } catch (err) {
+        res.status(400).redirect("/delete");
+    }
+}
+
+module.exports.edit_post = async (req, res) => {
+    const request = req.body;
+
+    const filter = request.artikkelnummer;
+    delete request.artikkelnummer;
+    const update = {};
+
+    // filters out empty values, because they are submittable in this request
+    Object.entries(request).forEach(entry => {
+        if (!entry[1] == "") {
+            update[entry[0]] = entry[1];    
+        }
+    })
+
+    // attempt update (auth protected)
+    try {
+        const jwtAuth = req.cookies.jwt;
+        const decoded = jwt.verify(jwtAuth, process.env.secretKey);
+        if (decoded.email === "petter.shoes@kickshub.io") {
+            const updatedProd = await Product.findOneAndUpdate(filter, update);
+            res.status(200).redirect("/edit");
+        } else {
+            res.status(401).render("accessDenied");
+        }
+    } catch (err) {
+        console.log(err);
+        res.status(400).redirect("/edit");
+    }
 }
 
    // 404
@@ -163,6 +250,8 @@ const createJWT = (email) => {
 
 // function sorting products by time
 const getProducts = async () => {
+    // gets products and sorts them
     const productList = await Product.find({}).sort({ createdAt : -1 });
+    // returns sorted products
     return productList;
 }
